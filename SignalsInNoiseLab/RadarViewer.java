@@ -83,7 +83,7 @@ public class RadarViewer
        
         for(int i = 0; i < 250; i++)
         {
-            Thread.sleep(10); // sleep 100 milliseconds (1/10 second)
+            Thread.sleep(20); // sleep 100 milliseconds (1/10 second)
             
             radar.scan();
             radar.setNewMonsterLocation();
@@ -93,9 +93,8 @@ public class RadarViewer
         }
         
         radar.displayDxDy();
-        
-        
-        /* This block of code was used to determine the
+      
+        /* This block of code was used to help determine the
         * greatest noiseFraction level for which this algorithm
         * would give a reasonable guess for (dx, dy)
         
@@ -107,9 +106,7 @@ public class RadarViewer
                 System.out.print("(" + i + ", " + j + ")" + ": " + radar.vectorDistribution[i][j] + " || ");
             }
             System.out.println(" ");
-        }
-        
-        System.out.println("Real dx value: " + radar.dx);
-        System.out.println("Real dy value: " + radar.dy);*/
+        }*/
+
     }
 }

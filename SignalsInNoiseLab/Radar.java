@@ -172,7 +172,11 @@ public class Radar
         }
         
         System.out.println("");
-        System.out.println("Guessed dx and dy values: " + dispDX + ", " + dispDY);
+        System.out.println("Dx and Dy values: " + dispDX + ", " + dispDY);
+        System.out.println("");
+        System.out.println("Real dx value: " + dx);
+        System.out.println("Real dy value: " + dy);
+        
         return (dispDX + dispDY);
     }
     
