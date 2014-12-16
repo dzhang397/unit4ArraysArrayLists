@@ -36,7 +36,7 @@ public class Radar
     // 2D array which holds/counts the frequency of appearances of
     // all possible movement vectors of the monster
     
-    public int[][] vectorDistribution = new int[11][11];
+    private int[][] vectorDistribution = new int[11][11];
     
     /**
      * Constructor for objects of class Radar
@@ -44,18 +44,34 @@ public class Radar
      * @param   rows    the number of rows in the radar grid
      * @param   cols    the number of columns in the radar grid
      */
-    public Radar(int rows, int cols, int dxInput, int dyInput, int monsterRow, int monsterCol)
+    public Radar(int rows, int cols)
     {
-        this.dx = dxInput;
-        this.dy = dyInput;
-        this.monsterLocationRow = monsterRow;
-        this.monsterLocationCol = monsterCol;
+        Scanner input = new Scanner(System.in);
+        
+        System.out.print("Input dx and dy values? (yes/no): ");
+        
+        if(input.next() == "yes")
+        {
+            System.out.print("Input an integer dx value from -5 to 5: ");
+            dx = input.nextInt();
+            System.out.print("Input an integer dy value from -5 to 5: ");
+            dy = input.nextInt();
+        }
+        else
+        {
+            dx = (int)(10 * Math.random()) - 5;
+            dx = (int)(10 * Math.random()) - 5;
+        }
         
         // initialize instance variables
         currentScan = new boolean[rows][cols]; // elements will be set to false
         prevScan = new boolean[rows][cols]; // stores the previous currentScan array
         accumulator = new int[rows][cols]; // elements will be set to 0
         
+        // randomly set the location of the monster (can be explicity set through the
+        // setMonsterLocation method)
+        monsterLocationRow = (int)(Math.random() * rows);
+        monsterLocationCol = (int)(Math.random() * cols);       
 
         for(int i = 0; i < 11; i++)
         {
@@ -151,7 +167,7 @@ public class Radar
      * 
      */
     
-    public String displayDxDy()
+    public void displayDxDy()
     {
         int maximum = 0;
         String dispDX = "";
@@ -171,9 +187,10 @@ public class Radar
             }
         }
         
-        System.out.println("");
+        // For testing
+        // System.out.println("Real dx value: " + dx + ", Real dy value: " + dy);
+        
         System.out.println("Guessed dx and dy values: " + dispDX + ", " + dispDY);
-        return (dispDX + dispDY);
     }
     
     /**

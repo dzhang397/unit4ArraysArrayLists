@@ -1,4 +1,5 @@
 import javax.swing.JFrame;
+import java.util.Scanner;
 
 /**
  * Class that contains the main method for the program and creates the frame containing the component.
@@ -17,8 +18,47 @@ public class RadarViewer
         // create the radar, set the monster location, and perform the initial scan
         final int ROWS = 100;
         final int COLS = 100;
-        Radar radar = new Radar(ROWS, COLS);
-        radar.setNoiseFraction(0.10);
+        
+        int dxInput;
+        int dyInput;
+        int monsterRow;
+        int monsterCol;
+        
+        Scanner input = new Scanner(System.in);
+        
+        System.out.print("Input dx and dy values? (yes/no): ");
+        
+        if(input.next().equals("yes"))
+        {
+            System.out.print("Input an integer dx value from -5 to 5: ");
+            dxInput = input.nextInt();
+            System.out.print("Input an integer dy value from -5 to 5: ");
+            dyInput = input.nextInt();
+        }
+        else
+        {
+            dxInput = (int)(10 * Math.random()) - 5;
+            dyInput = (int)(10 * Math.random()) - 5;
+        }
+        
+        System.out.print("Input initial monster location? (yes/no): ");
+        
+        if(input.next().equals("yes"))
+        {
+            System.out.print("Input an integer dx value from 0 to 99: ");
+            monsterRow = input.nextInt();
+            System.out.print("Input an integer dy value from 0 to 99: ");
+            monsterCol = input.nextInt();
+        }
+        else
+        {        
+            monsterRow = (int)(Math.random() * 100);
+            monsterCol = (int)(Math.random() * 100);       
+        }
+        
+        Radar radar = new Radar(ROWS, COLS, dxInput, dyInput, monsterRow, monsterCol);
+        
+        radar.setNoiseFraction(0.035);
         radar.scan();
         
         JFrame frame = new JFrame();
@@ -37,16 +77,39 @@ public class RadarViewer
         //  component.
         frame.setVisible(true);
         
-        // perform 100 scans of the radar wiht a slight pause between each
+        // perform 250 scans of the radar wiht a slight pause between each
         // after each scan, instruct the Java Run-Time to redraw the window
-        for(int i = 0; i < 100; i++)
+        
+       
+        for(int i = 0; i < 250; i++)
         {
-            Thread.sleep(100); // sleep 100 milliseconds (1/10 second)
+            Thread.sleep(10); // sleep 100 milliseconds (1/10 second)
             
             radar.scan();
+            radar.setNewMonsterLocation();
+            radar.scanForMonster();
             
             frame.repaint();
         }
+        
+        radar.displayDxDy();
+        
+        
+        /* This block of code was used to determine the
+        * greatest noiseFraction level for which this algorithm
+        * would give a reasonable guess for (dx, dy)
+        
+        for(int i = 0; i < 11; i++)
+        {
+            for(int j = 0; j < 11; j++)
+            {
+                
+                System.out.print("(" + i + ", " + j + ")" + ": " + radar.vectorDistribution[i][j] + " || ");
+            }
+            System.out.println(" ");
+        }
+        
+        System.out.println("Real dx value: " + radar.dx);
+        System.out.println("Real dy value: " + radar.dy);*/
     }
-
 }
